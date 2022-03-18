@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        ROS_DISTRO: ["noetic"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: smilerobotics/actions-ros-bloom-generate@v1
+        with:
+          repository_owner: smilerobotics
+          repository: map2gazebo
+          ref: noetic_dev
+          ros_distro: ${{ matrix.ROS_DISTRO }}
+          targets: ./map2gazebo
+          name_prefix: ${{ matrix.ROS_DISTRO }}-
+          repository_type: github
